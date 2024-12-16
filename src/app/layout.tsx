@@ -9,6 +9,9 @@ const inter = Inter({ subsets: ['latin'] })
 export const metadata: Metadata = {
   title: 'WattSense',
   description: 'Advanced data analysis and AI consulting platform',
+  icons: {
+    icon: "./icon.png",
+  },
 }
 
 export default function RootLayout({
