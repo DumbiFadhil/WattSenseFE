@@ -36,22 +36,19 @@ export default function Home() {
     const interval = setInterval(() => {
       const newLabel = new Date().toLocaleTimeString()
 
-      // Simulate a smooth energy usage curve, adding some random noise
       const previousDataPoint = data.datasets[0].data[data.datasets[0].data.length - 1] || 0
-      const randomChange = Math.random() * 5 - 2.5 // Small random fluctuations between -2.5 and 2.5 kWh
+      const randomChange = Math.random() * 5 - 2.5
       let newDataPoint = previousDataPoint + randomChange
 
-      // Occasionally, add a large spike (simulating a high energy consumption moment)
       if (Math.random() < 0.1) {
-        newDataPoint += Math.random() * 50 // Random spike between 0 and 50 kWh
+        newDataPoint += Math.random() * 50
       }
 
-      // Ensure the new data point doesn't go below 0
       newDataPoint = Math.max(0, newDataPoint)
 
       setData((prevData) => {
-        const updatedLabels = [...prevData.labels, newLabel].slice(-10) // Keep only the last 10 labels
-        const updatedData = [...prevData.datasets[0].data, newDataPoint].slice(-10) // Keep only the last 10 data points
+        const updatedLabels = [...prevData.labels, newLabel].slice(-10)
+        const updatedData = [...prevData.datasets[0].data, newDataPoint].slice(-10)
 
         return {
           ...prevData,
@@ -64,7 +61,7 @@ export default function Home() {
           ],
         }
       })
-    }, 180000) // 15 minutes in milliseconds (900,000 ms)
+    }, 180000)
 
     return () => clearInterval(interval)
   }, [data])
