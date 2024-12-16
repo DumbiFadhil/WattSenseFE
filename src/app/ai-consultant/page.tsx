@@ -1,3 +1,4 @@
+/* eslint-disable @next/next/no-img-element */
 /* eslint-disable @typescript-eslint/no-unused-vars */
 'use client'
 
@@ -38,9 +39,9 @@ export default function AIChatConsultantPage() {
       return
     }
 
-    const newUserMessage: ChatMessage = { 
+    const newUserMessage: ChatMessage = {
       id: `user-${Date.now()}`,
-      type: 'user', 
+      type: 'user',
       message: query,
       timestamp: Date.now()
     }
@@ -52,9 +53,9 @@ export default function AIChatConsultantPage() {
 
     try {
       const aiResponse = await chatWithAI(query)
-      const newAIMessage: ChatMessage = { 
+      const newAIMessage: ChatMessage = {
         id: `ai-${Date.now()}`,
-        type: 'ai', 
+        type: 'ai',
         message: aiResponse,
         timestamp: Date.now()
       }
@@ -69,7 +70,7 @@ export default function AIChatConsultantPage() {
 
   const handleDeleteChat = () => {
     const confirmDelete = window.confirm('Are you sure you want to delete the entire chat history?')
-    
+
     if (confirmDelete) {
       setChatHistory([])
       localStorage.removeItem('chatHistory')
@@ -87,7 +88,7 @@ export default function AIChatConsultantPage() {
       <div className="flex justify-between items-center mb-6">
         <h1 className="text-3xl font-bold text-center flex-grow">AI Consultant</h1>
         {chatHistory.length > 0 && (
-          <button 
+          <button
             onClick={handleDeleteChat}
             className="text-red-500 hover:text-red-700 transition-colors"
             title="Delete Entire Chat"
@@ -105,13 +106,13 @@ export default function AIChatConsultantPage() {
             </div>
           ) : (
             chatHistory.map((msg) => (
-              <div 
+              <div
                 key={msg.id}
                 className={`relative mb-2 p-2 rounded group
                   ${msg.type === 'user' ? 'bg-primary/40 text-right' : 'bg-tertiary/30 text-left'}
                 `}
               >
-                <button 
+                <button
                   onClick={() => handleDeleteMessage(msg.id)}
                   className="absolute top-1 right-1 text-red-500 hover:text-red-700 opacity-0 group-hover:opacity-100 transition-opacity duration-200"
                   title="Delete Message"
@@ -122,14 +123,14 @@ export default function AIChatConsultantPage() {
                 {msg.type === 'ai' ? (
                   <ReactMarkdown
                     components={{
-                      h1: ({node, ...props}) => <h1 className="text-2xl font-bold mb-2" {...props} />,
-                      h2: ({node, ...props}) => <h2 className="text-xl font-semibold mb-2" {...props} />,
-                      h3: ({node, ...props}) => <h3 className="text-lg font-medium mb-2" {...props} />,
-                      strong: ({node, ...props}) => <strong className="font-bold" {...props} />,
-                      em: ({node, ...props}) => <em className="italic" {...props} />,
-                      p: ({node, ...props}) => <p className="mb-2" {...props} />,
-                      ol: ({node, ...props}) => <ol className="list-decimal pl-5 mb-2" {...props} />,
-                      ul: ({node, ...props}) => <ul className="list-disc pl-5 mb-2" {...props} />,
+                      h1: ({ node, ...props }) => <h1 className="text-2xl font-bold mb-2" {...props} />,
+                      h2: ({ node, ...props }) => <h2 className="text-xl font-semibold mb-2" {...props} />,
+                      h3: ({ node, ...props }) => <h3 className="text-lg font-medium mb-2" {...props} />,
+                      strong: ({ node, ...props }) => <strong className="font-bold" {...props} />,
+                      em: ({ node, ...props }) => <em className="italic" {...props} />,
+                      p: ({ node, ...props }) => <p className="mb-2" {...props} />,
+                      ol: ({ node, ...props }) => <ol className="list-decimal pl-5 mb-2" {...props} />,
+                      ul: ({ node, ...props }) => <ul className="list-disc pl-5 mb-2" {...props} />,
                     }}
                   >
                     {msg.message}
@@ -151,12 +152,31 @@ export default function AIChatConsultantPage() {
             placeholder="Ask your AI consultant..."
             className="flex-grow p-2 border rounded-l"
           />
-          <button 
-            onClick={handleSendMessage} 
+          <button
+            onClick={handleSendMessage}
             disabled={isLoading}
             className="bg-green-500 text-white p-2 rounded-r hover:bg-green-600 transition duration-300 disabled:opacity-50"
           >
-            {isLoading ? 'Sending...' : 'Send'}
+            <button
+              onClick={handleSendMessage}
+              disabled={isLoading}
+              className="bg-green-500 text-white p-2 rounded-r hover:bg-green-600 transition duration-300 disabled:opacity-50"
+            >
+              {isLoading ? (
+                <img
+                  src="https://cdn.discordapp.com/attachments/879733859372130376/1318196058454626314/loading.png?ex=6761713f&is=67601fbf&hm=70f4e763a751f219554be23055efe932dc9e92b8c49baad9f16c79aee65f2401&"
+                  alt="Loading"
+                  className="w-5 h-5 animate-spin"
+                />
+              ) : (
+                <img
+                  src="https://cdn.discordapp.com/attachments/879733859372130376/1318196058819661924/send.png?ex=6761713f&is=67601fbf&hm=a8bb7d9bfc678f3b9e71d7225ad40dadb0f8e1b198e49c208feea4278aa818d6&"
+                  alt="Send"
+                  className="w-5 h-5"
+                />
+              )}
+            </button>
+
           </button>
         </div>
       </div>
