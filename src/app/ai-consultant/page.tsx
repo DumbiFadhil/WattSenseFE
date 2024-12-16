@@ -19,21 +19,18 @@ export default function AIChatConsultantPage() {
   const [chatHistory, setChatHistory] = useState<ChatMessage[]>([])
   const [isLoading, setIsLoading] = useState(false)
 
-  // Load chat history from localStorage on component mount
   useEffect(() => {
     const storedChats = localStorage.getItem('chatHistory')
     if (storedChats) {
       setChatHistory(JSON.parse(storedChats))
     }
-  }, [])  // Empty dependency array ensures this effect runs only once when component mounts
+  }, [])
 
-  // Update localStorage whenever chat history changes
   useEffect(() => {
-    // Avoid updating localStorage if chatHistory hasn't changed
     if (chatHistory.length > 0) {
       localStorage.setItem('chatHistory', JSON.stringify(chatHistory))
     }
-  }, [chatHistory])  // Runs every time chatHistory changes
+  }, [chatHistory])
 
   const handleSendMessage = async () => {
     if (!query.trim()) {
@@ -74,8 +71,8 @@ export default function AIChatConsultantPage() {
     const confirmDelete = window.confirm('Are you sure you want to delete the entire chat history?')
     
     if (confirmDelete) {
-      setChatHistory([])  // Clear chat history state
-      localStorage.removeItem('chatHistory')  // Remove chat history from localStorage
+      setChatHistory([])
+      localStorage.removeItem('chatHistory')
       toast.success('Chat history deleted')
     }
   }
@@ -114,7 +111,6 @@ export default function AIChatConsultantPage() {
                   ${msg.type === 'user' ? 'bg-primary/40 text-right' : 'bg-tertiary/30 text-left'}
                 `}
               >
-                {/* Delete individual message button */}
                 <button 
                   onClick={() => handleDeleteMessage(msg.id)}
                   className="absolute top-1 right-1 text-red-500 hover:text-red-700 opacity-0 group-hover:opacity-100 transition-opacity duration-200"

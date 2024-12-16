@@ -27,7 +27,6 @@ export const chatWithAI = async (query: string) => {
   try {
     const response = await axios.post(`${API_BASE_URL}/chat`, { query })
     
-    // Remove leading "Assistant: " if present and trim any leading newlines
     let answer = response.data.answer
     if (answer.startsWith('Assistant: ')) {
       answer = answer.replace(/^Assistant: /, '')

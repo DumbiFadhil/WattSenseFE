@@ -6,22 +6,20 @@ import { Chart as ChartJS, CategoryScale, LinearScale, LineElement, PointElement
 ChartJS.register(CategoryScale, LinearScale, LineElement, PointElement, Title, Tooltip, Legend)
 
 const EnergyConsumptionChart = ({ data }) => {
-  const appliances = [...new Set(data.Appliance)] // Get unique appliances
-  const timeLabels = [...new Set(data.Time)] // Get unique times
+  const appliances = [...new Set(data.Appliance)]
+  const timeLabels = [...new Set(data.Time)]
 
-  // Prepare the datasets for chart
   const datasets = appliances.map((appliance) => {
     const energyConsumptionData = data.Energy_Consumption.filter((_, index) => data.Appliance[index] === appliance)
     return {
       label: appliance,
-      data: energyConsumptionData.map(Number), // Convert string to number for chart
+      data: energyConsumptionData.map(Number),
       fill: false,
       borderColor: getRandomColor(),
       tension: 0.1
     }
   })
 
-  // Chart.js data format
   const chartData = {
     labels: timeLabels,
     datasets: datasets
@@ -30,7 +28,6 @@ const EnergyConsumptionChart = ({ data }) => {
   return <Line data={chartData} />
 }
 
-// Helper function to generate random color for each appliance line
 const getRandomColor = () => {
   const letters = '0123456789ABCDEF'
   let color = '#'
